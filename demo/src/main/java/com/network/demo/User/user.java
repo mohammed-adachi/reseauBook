@@ -3,13 +3,15 @@ package com.network.demo.User;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import static jakarta.persistence.FetchType.EAGER;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.azure.core.annotation.Generated;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,6 +30,10 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import  com.network.demo.role.Roles;
 
 @Getter
 @Setter
@@ -45,12 +51,15 @@ private Integer id;
 private String username;
 private String lastname;
 private LocalDate dateOfBirth;
-    @Column(unique = true)
-    private String email;
-    private String password;
-    private boolean accountLocked;
+@Column(unique = true)
+private String email;
+private String password;
+private boolean accountLocked;
     private boolean enabled;
+    @ManyToMany(fetch = EAGER)
+    private List<Roles> roles;
 
+    
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -62,10 +71,13 @@ private LocalDate dateOfBirth;
 
 
     @Override
-public Collection<? extends GrantedAuthority> getAuthorities() {
-    // Retourner une collection des autorités de l'utilisateur
-    return Collections.emptyList(); // Vous devez remplacer cette ligne avec vos autorités réelles
-}
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles
+                .stream()
+                .map(r -> new SimpleGrantedAuthority(r.getName()))
+                .collect(Collectors.toList());
+    }
+
     @Override
     public String getPassword() {
         return password;

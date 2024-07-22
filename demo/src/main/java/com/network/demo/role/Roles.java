@@ -1,11 +1,10 @@
 package com.network.demo.role;
-
-import com.azure.core.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.network.demo.User.user;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
@@ -33,7 +32,7 @@ import java.util.*;
 @EntityListeners(AuditingEntityListener.class)
 public class Roles {
     @Id
-    @Generated
+    @GeneratedValue
     private Integer id;
     @Column(unique = true)
     private String name;
