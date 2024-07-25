@@ -62,19 +62,18 @@ public class AuthenticationService {
         );
 
         var claims = new HashMap<String, Object>();
-        var user = ((user) auth.getPrincipal());
-        claims.put("fullName", user.getFullName());
-
+        var users = ((user) auth.getPrincipal());
+        claims.put("fullName", users.getFullName());
+        System.out.println(users.getFullName());
         var jwtToken = jwtService.generateToken(claims, (user) auth.getPrincipal());
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
     }
 
-    @Transactional
+   //@Transactional
     public void activateAccount(String token) throws MessagingException {
         Token savedToken = tokenRepository.findByToken(token)
-                // todo exception has to be defined
                 .orElseThrow(() -> new RuntimeException("Invalid token"));
         if (LocalDateTime.now().isAfter(savedToken.getExpiresAt())) {
             sendValidationEmail(savedToken.getUser());

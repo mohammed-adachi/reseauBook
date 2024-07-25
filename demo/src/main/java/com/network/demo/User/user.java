@@ -119,7 +119,7 @@ private boolean accountLocked;
     }
 
     public String getFullName() {
-        return username + " " + lastname;
+        return  username + " " + lastname;
     }
 
 
