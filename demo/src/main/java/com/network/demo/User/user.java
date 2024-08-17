@@ -1,10 +1,12 @@
 package com.network.demo.User;
+import com.network.demo.book.Book;
+import com.network.demo.history.BookTransactionHistory;
 
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import static jakarta.persistence.FetchType.EAGER;
-
+import java.util.List;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.GrantedAuthority;
@@ -58,7 +60,10 @@ private boolean accountLocked;
     private boolean enabled;
     @ManyToMany(fetch = EAGER)
     private List<Roles> roles;
-
+    @OneToMany(mappedBy = "owner")
+    private List<Book> books;
+      @OneToMany(mappedBy = "user")
+    private List<BookTransactionHistory> histories;
     
 
     @CreatedDate

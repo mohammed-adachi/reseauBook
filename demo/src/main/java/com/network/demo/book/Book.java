@@ -1,7 +1,11 @@
 package com.network.demo.book;
 
 import com.network.demo.User.user;
+import com.network.demo.Feedback.Feedback;
+import com.network.demo.common.BaseEntity;
+import com.network.demo.history.BookTransactionHistory;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
